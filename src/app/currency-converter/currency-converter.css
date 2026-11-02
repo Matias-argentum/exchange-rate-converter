@@ -1,0 +1,165 @@
+/* Tema oscuro inspirado en "GitHub Dimmed" del VS Code.
+   Las variables (--nombre) se declaran en :host y se usan con var(--nombre). */
+:host {
+  --bg: #22272e;
+  --surface: #2d333b;
+  --surface-2: #1c2128;
+  --border: #444c56;
+  --text: #adbac7;
+  --muted: #768390;
+  --accent: #539bf5;
+  --accent-hover: #6cb6ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* La tarjeta principal. */
+.card {
+  width: 100%;
+  max-width: 440px;
+  padding: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+
+.card__header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #cdd9e5;
+}
+
+.card__header p {
+  margin: 0.35rem 0 1.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* Mensajes de carga / error. */
+.status {
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.status--error {
+  border-color: #ae2c2c;
+  color: #f47067;
+}
+
+/* Formulario: una columna con los campos apilados. */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(83, 155, 245, 0.25);
+}
+
+/* El botón de intercambio se centra y se separa un poco. */
+.swap {
+  align-self: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--accent);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.swap:hover {
+  border-color: var(--accent);
+  background: var(--bg);
+  color: var(--accent-hover);
+}
+
+/* Bloque del resultado, destacado sobre el fondo de la tarjeta. */
+.result {
+  margin-top: 1.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+  text-align: center;
+}
+
+.result__rate {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.result__amount,
+.result__converted {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.result__converted {
+  font-size: 1.6rem;
+  color: var(--accent-hover);
+}
+
+.result__flag {
+  font-size: 1.4rem;
+}
+
+.result__equals {
+  margin: 0.5rem 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+}

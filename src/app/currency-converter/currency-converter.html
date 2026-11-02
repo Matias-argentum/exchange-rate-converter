@@ -1,0 +1,102 @@
+<!--
+  Este es el HTML del componente (la "vista").
+  Los paréntesis () en un evento y los corchetes [] en una propiedad
+  son la sintaxis de binding de Angular:
+    [algo]="expresion"  -> pasa un valor de TypeScript al HTML
+    (algo)="accion()"   -> escucha un evento del HTML y llama a TypeScript
+-->
+
+<section class="card">
+  <header class="card__header">
+    <h1>Conversor de monedas</h1>
+    <p>USD · ARS · EUR · BRL con datos en vivo</p>
+  </header>
+
+  <!-- @if muestra un bloque solo si la condición es verdadera.
+       loading() y error() son signals: al cambiar, Angular actualiza la vista. -->
+  @if (loading()) {
+    <p class="status">Cargando tipos de cambio...</p>
+  } @else if (error()) {
+    <p class="status status--error">{{ error() }}</p>
+  } @else {
+    <form class="form" (submit)="$event.preventDefault()">
+      <!-- CAMPO DE CANTIDAD -->
+      <label class="field">
+        <span class="field__label">Monto</span>
+        <!--
+          [ngModel] es binding de una sola vía: muestra en el input el valor
+          del signal amount().
+          (ngModelChange) escucha cada tecla y guarda el nuevo número en el
+          signal con .set(). "|| 0" evita null/NaN si el input queda vacío.
+        -->
+        <input
+          class="input"
+          type="number"
+          min="0"
+          step="0.01"
+          [ngModel]="amount()"
+          (ngModelChange)="amount.set($event || 0)"
+          name="amount"
+        />
+      </label>
+
+      <!-- SELECT DE MONEDA ORIGEN -->
+      <label class="field">
+        <span class="field__label">De</span>
+        <!-- Igual que el input: mostramos fromCurrency() y guardamos lo elegido. -->
+        <select
+          class="select"
+          [ngModel]="fromCurrency()"
+          (ngModelChange)="fromCurrency.set($event)"
+          name="from"
+        >
+          <!-- @for recorre el arreglo currencies.
+               "track currency.code" ayuda a Angular a identificar cada opción. -->
+          @for (currency of currencies; track currency.code) {
+            <!-- [value] hace que el value sea el código, y el texto muestra bandera + nombre. -->
+            <option [value]="currency.code">{{ currency.flag }} {{ currency.code }} — {{ currency.name }}</option>
+          }
+        </select>
+      </label>
+
+      <!-- BOTÓN PARA INTERCAMBIAR MONEDAS -->
+      <button class="swap" type="button" (click)="swapCurrencies()" title="Intercambiar monedas">
+        ⇅
+      </button>
+
+      <!-- SELECT DE MONEDA DESTINO -->
+      <label class="field">
+        <span class="field__label">A</span>
+        <select
+          class="select"
+          [ngModel]="toCurrency()"
+          (ngModelChange)="toCurrency.set($event)"
+          name="to"
+        >
+          @for (currency of currencies; track currency.code) {
+            <option [value]="currency.code">{{ currency.flag }} {{ currency.code }} — {{ currency.name }}</option>
+          }
+        </select>
+      </label>
+    </form>
+
+    <!-- RESULTADO -->
+    <div class="result">
+      <p class="result__rate">
+        1 {{ fromCurrency() }} = {{ exchangeRate() | number: '1.2-4' }} {{ toCurrency() }}
+      </p>
+
+      <p class="result__amount">
+        <span class="result__flag">{{ fromFlag() }}</span>
+        {{ amount() | number: '1.2-2' }} {{ fromCurrency() }}
+      </p>
+
+      <p class="result__equals">=</p>
+
+      <p class="result__converted">
+        <span class="result__flag">{{ toFlag() }}</span>
+        {{ convertedAmount() | number: '1.2-2' }} {{ toCurrency() }}
+      </p>
+    </div>
+  }
+</section>

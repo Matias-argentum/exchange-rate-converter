@@ -1,11 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { CurrencyConverter } from './currency-converter/currency-converter';
 
+// El componente raíz de la aplicación.
+// Solo se encarga de mostrar el componente del conversor.
 @Component({
-  imports: [],
   selector: 'app-root',
+  imports: [CurrencyConverter],
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('exchange-rate-converter');
-}
+export class App {}
